@@ -7,6 +7,7 @@ import com.payment.paynet.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,4 +42,13 @@ public class Transactioncontroller {
         }
         return ResponseEntity.accepted().body("Transaction Unsuccessful!");
      }
+
+     @GetMapping("/view-transaction/{id}")
+     public ResponseEntity<?> viewTransaction(@PathVariable Long id) {
+         try {
+            return ResponseEntity.accepted().body(transactionService.viewTransaction(id));
+         } catch (Exception ex) {
+             return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+         }
+      }
 }

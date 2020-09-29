@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.payment.paynet.dto.TransactionStatus;
 import com.payment.paynet.dto.TransferDto;
+import com.payment.paynet.dto.ViewTransactionDto;
 import com.payment.paynet.models.Transaction;
 import com.payment.paynet.models.UserAccount;
 import com.payment.paynet.models.Wallet;
@@ -29,26 +30,27 @@ public class TransactionServiceImpl implements TransactionService {
     UserAccountService userAccountService;
 
     // @Override
-    // public Transaction selfTransactionProccessing(Long id, Transaction userTransaction) throws Exception {
-    //    Wallet wallet  = walletService.addMoney(id, userTransaction.getBalance());
-    //    Transaction transaction = new Transaction();
-    //    transaction.setBalance(userTransaction.getBalance());
-    //    transaction.setDescription("Credit");
-    //    transaction.setStatus(TransactionStatus.SUCCESS);
-    //    transaction.setWallet(wallet);
-    //    transaction.setUserAccount(wallet.getUserAccount());
-    //    transaction.setTimestamp(new Date());
-    //    return transactionRepository.save(transaction);
+    // public Transaction selfTransactionProccessing(Long id, Transaction
+    // userTransaction) throws Exception {
+    // Wallet wallet = walletService.addMoney(id, userTransaction.getBalance());
+    // Transaction transaction = new Transaction();
+    // transaction.setBalance(userTransaction.getBalance());
+    // transaction.setDescription("Credit");
+    // transaction.setStatus(TransactionStatus.SUCCESS);
+    // transaction.setWallet(wallet);
+    // transaction.setUserAccount(wallet.getUserAccount());
+    // transaction.setTimestamp(new Date());
+    // return transactionRepository.save(transaction);
     // }
 
     @Override
     public boolean transferMoney(TransferDto transferDto) throws Exception {
         UserAccount user1 = userAccountService.findByMobileNo(transferDto.getSourceUser());
         UserAccount user2 = userAccountService.findByMobileNo(transferDto.getDestinationUser());
-        if(user1 == null) {
+        if (user1 == null) {
             throw new Exception("User Not Found");
         }
-        if(user2 == null) {
+        if (user2 == null) {
             throw new Exception("User Not Found");
         }
         Transaction transaction = new Transaction();
@@ -61,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction transactionIn(Long id, Transaction userTransaction) throws Exception {
-        Wallet wallet  = walletService.addMoney(id, userTransaction.getBalance());
+        Wallet wallet = walletService.addMoney(id, userTransaction.getBalance());
         Transaction transaction = new Transaction();
         transaction.setBalance(userTransaction.getBalance());
         transaction.setDescription("Credited");
@@ -75,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction transactionOut(Long id, Transaction userTransaction) throws Exception {
-        Wallet wallet  = walletService.WithdrawMoney(id, userTransaction.getBalance());
+        Wallet wallet = walletService.WithdrawMoney(id, userTransaction.getBalance());
         Transaction transaction = new Transaction();
         transaction.setBalance(userTransaction.getBalance());
         transaction.setDescription("Debited");
@@ -86,4 +88,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTimestamp(new Date());
         return transactionRepository.save(transaction);
     }
+
+    @Override
+    public ViewTransactionDto viewTransaction(Long id) throws Exception {
+        return  userAccountService.transactionList(id);
+    }
+
 }

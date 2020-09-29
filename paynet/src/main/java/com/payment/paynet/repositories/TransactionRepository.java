@@ -7,5 +7,5 @@ import com.payment.paynet.models.Transaction;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-
+    public Transaction findByUserAccountId(Long id);
 }
