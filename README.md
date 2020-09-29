@@ -3,6 +3,7 @@
 # PayNet Wallet System 
 
 + framework: Spring Boot and hibernate
++ database: MYSQL
 
 # functionality
 • Signup – full name, mobile number and create password.
